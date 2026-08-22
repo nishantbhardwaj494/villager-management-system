@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+    <title>Village</title>
+<body>
+
+    <input type="text"  id="name" placeholder="Enter Name">
+    <br><br>
+
+    <input type="text"  id="villageName" placeholder="Village Name">
+    <br><br>
+
+     <input type="number"  id="age" placeholder="Age">
+      <br><br>
+
+    
+    <select id="gender">
+        <option value="">--Select Gender--</option>
+        <option  value="Male">--Male</option>
+        <option  value="Female">--Female</option>
+    </select>
+    <br><br>
+
+    <input type="number"  id="mobile" placeholder="Contact-No">
+      <br><br>
+
+
+    <input type="text"  id="occupation" placeholder="Occupation">
+     <br><br>
+
+     <input type="number"  id="adhar" placeholder="Aadhar Card">
+     <br><br>
+     
+     <button onclick="addData()">Add Village</button>
+  
+
+    <button onclick="showData()">Show</button>
+
+    <button onclick="updateData()">Update</button>
+
+    <button onclick="deleteData()">Delete</button>
+
+    <ul id="list"></ul>
+
+    <script>
+        async function addData(){
+
+            const name = document.getElementById("name").value;
+            const villageName = document.getElementById("villageName").value;
+            const age = document.getElementById("age").value;    
+            const gender = document.getElementById("gender").value;
+            const mobile = document.getElementById("mobile").value;
+            const  occupation = document.getElementById("occupation").value;
+            const adhar = document.getElementById("adhar").value;
+
+            await fetch("/add",{
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify({name,villageName,age,gender,mobile,occupation,adhar})
+                
+            });
+            alert("Data Saved");
+        }
+
+        async function showData(){
+            const res = await fetch("/add");
+            const data = await res.json();
+
+            let list = document.getElementById("list");
+            list.innerHTML = "";
+
+            data.forEach((item) => {
+                list.innerHTML +=
+                `<li>
+                    ${item.name}<br>
+                    ${item.villageName}<br>
+                    ${item.age} <br>
+                    ${item.gender} <br>
+                    ${item.mobile} <br>
+                    ${item.occupation}<br>
+                    ${item.adhar}<br>
+                    </li> `;
+                   
+
+            });
+}
+showData();
+        
+  async function updateData(){
+
+    const name = document.getElementById("name").value;
+            const villageName = document.getElementById("villageName").value;
+            const age = document.getElementById("age").value;    
+            const gender = document.getElementById("gender").value;
+            const mobile = document.getElementById("mobile").value;
+            const  occupation = document.getElementById("occupation").value;
+            const adhar = document.getElementById("adhar").value;
+
+            await fetch("/add",{
+                method:"PUT",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify({name,villageName,age,gender,mobile,occupation,adhar})
+                
+            });
+            alert("Data Update");
+
+  }
+
+  async function deleteData(){
+    const name = document.getElementById("name").value;
+
+    await fetch("/add",{
+        method:"DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({name})
+    });
+  
+  alert("Data Deleted");
+}
+
+    </script>
+</body>
+</html>
